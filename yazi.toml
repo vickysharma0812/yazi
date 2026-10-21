@@ -29,6 +29,10 @@ ueberzug_scale = 1
 ueberzug_offset = [0, 0, 0, 0]
 
 [opener]
+preview_app = [
+  { run = 'open -a Preview "%s"', desc = "Open with Preview", for = "macos" },
+]
+
 open_in_lyx = [
   { run = 'lyx "$@"', desc = "Open in lyx", block = false, for = "macos" },
 ]
@@ -44,7 +48,7 @@ open_in_neovim = [
 ]
 
 open_in_zed = [
-  { run = 'zed --wait --foreground "$@"', desc = "Open in zed", for = "macos" },
+  { run = "zed -e %s", desc = "Open in zed", orphan = true, for = "macos" },
   { run = 'xdg-open "$1"', desc = "Open", for = "linux" },
 ]
 
@@ -63,40 +67,46 @@ reveal = [
 
 extract = [
   { run = 'ya pub extract --list "$@"', desc = "Extract here", for = "unix" },
-  { run = 'ya pub extract --list %*', desc = "Extract here", for = "windows" },
+  { run = "ya pub extract --list %*", desc = "Extract here", for = "windows" },
 ]
 
 play = [
   { run = 'mpv --force-window "$@"', orphan = true, for = "unix" },
-  { run = 'mpv --force-window %*', orphan = true, for = "windows" },
+  { run = "mpv --force-window %*", orphan = true, for = "windows" },
   { run = '''mediainfo "$1"; echo "Press enter to exit"; read _''', block = true, desc = "Show media info", for = "unix" },
 ]
 
 [open]
+# pdf files
+prepend_rules = [{ url = "*.pdf", use = ["preview_app", "reveal"] }]
+
 rules = [
   # Lyx files
   { url = "*.lyx", use = [
     "open_in_lyx",
   ] },
+
   # Toml files
   { url = "*.toml", use = [
     "open_in_zed",
     "open",
     "reveal",
   ] },
+
   # Markdown files
   { url = "*.md", use = [
     "open_in_zed",
     "open",
     "reveal",
   ] },
+
   # Fortran files
   { url = "*.F90", use = [
     "open_in_zed",
     "open",
     "reveal",
   ] },
-  # Fortran files
+  # CSV files
   { url = "*.csv", use = [
     "open_in_zed",
     "open",
@@ -150,7 +160,7 @@ fetch_workers = 5
 preload_workers = 2
 process_workers = 5
 bizarre_retry = 3
-image_alloc = 536870912      # 512MB
+image_alloc = 536870912  # 512MB
 image_bound = [10000, 10000]
 suppress_preload = false
 
@@ -187,8 +197,6 @@ preloaders = [
   { mime = "image/*", run = "image" },
   # Video
   { mime = "video/*", run = "video" },
-  # PDF
-  { mime = "application/pdf", run = "pdf" },
   # Font
   { mime = "font/*", run = "font" },
   { mime = "application/ms-opentype", run = "font" },
