@@ -30,50 +30,50 @@ ueberzug_offset = [0, 0, 0, 0]
 
 [opener]
 preview_app = [
-  { run = 'open -a Preview "%s"', desc = "Open with Preview", for = "macos" },
+  { run = "open -a Preview %s", desc = "Open with Preview", for = "macos" },
 ]
 
 open_in_lyx = [
-  { run = 'lyx "$@"', desc = "Open in lyx", block = false, for = "macos" },
+  { run = "lyx %s", desc = "Open in lyx", block = false, for = "macos" },
 ]
 
 open_in_helix = [
-  { run = 'hx "$@"', desc = "Open in helix", block = false, for = "macos" },
-  { run = 'hx "$@"', desc = "Open in helix", block = false, for = "linux" },
+  { run = "hx %s", desc = "Open in helix", block = false, for = "macos" },
+  { run = "hx %s", desc = "Open in helix", block = false, for = "linux" },
 ]
 
 open_in_neovim = [
-  { run = 'nvim "$@"', desc = "Open in neovim", block = false, for = "macos" },
-  { run = 'nvim "$@"', desc = "Open in neovim", block = false, for = "linux" },
+  { run = "nvim %s", desc = "Open in neovim", block = false, for = "macos" },
+  { run = "nvim %s", desc = "Open in neovim", block = false, for = "linux" },
 ]
 
 open_in_zed = [
   { run = "zed -e %s", desc = "Open in zed", orphan = true, for = "macos" },
-  { run = 'xdg-open "$1"', desc = "Open", for = "linux" },
+  { run = "xdg-open %s1", desc = "Open", for = "linux" },
 ]
 
 open = [
-  { run = 'open "$@"', desc = "Open", for = "macos" },
-  { run = 'xdg-open "$1"', desc = "Open", for = "linux" },
+  { run = "open %s", desc = "Open", for = "macos" },
+  { run = "xdg-open %s1", desc = "Open", for = "linux" },
 ]
 
 reveal = [
-  { run = 'xdg-open "$(dirname "$1")"', desc = "Reveal", for = "linux" },
-  { run = 'open -R "$1"', desc = "Reveal", for = "macos" },
-  { run = 'explorer /select,"%1"', orphan = true, desc = "Reveal", for = "windows" },
-  { run = 'termux-open "$(dirname "$1")"', desc = "Reveal", for = "android" },
-  { run = '''exiftool "$1"; echo "Press enter to exit"; read _''', block = true, desc = "Show EXIF", for = "unix" },
+  { run = "xdg-open %d1", desc = "Reveal", for = "linux" },
+  { run = "open -R %s1", desc = "Reveal", for = "macos" },
+  { run = "explorer /select,%s1", orphan = true, desc = "Reveal", for = "windows" },
+  { run = "termux-open %d1", desc = "Reveal", for = "android" },
+  { run = '''exiftool %s1; echo "Press enter to exit"; read _''', block = true, desc = "Show EXIF", for = "unix" },
 ]
 
 extract = [
-  { run = 'ya pub extract --list "$@"', desc = "Extract here", for = "unix" },
-  { run = "ya pub extract --list %*", desc = "Extract here", for = "windows" },
+  { run = "ya pub extract --list %s", desc = "Extract here", for = "unix" },
+  { run = "ya pub extract --list %s", desc = "Extract here", for = "windows" },
 ]
 
 play = [
-  { run = 'mpv --force-window "$@"', orphan = true, for = "unix" },
-  { run = "mpv --force-window %*", orphan = true, for = "windows" },
-  { run = '''mediainfo "$1"; echo "Press enter to exit"; read _''', block = true, desc = "Show media info", for = "unix" },
+  { run = "mpv --force-window %s", orphan = true, for = "unix" },
+  { run = "mpv --force-window %s", orphan = true, for = "windows" },
+  { run = '''mediainfo %s1; echo "Press enter to exit"; read _''', block = true, desc = "Show media info", for = "unix" },
 ]
 
 [open]
@@ -114,6 +114,7 @@ rules = [
   ] },
   # Text
   { mime = "text/*", use = [
+    "open_in_zed",
     "edit",
     "reveal",
   ] },
