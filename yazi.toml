@@ -29,6 +29,11 @@ ueberzug_scale = 1
 ueberzug_offset = [0, 0, 0, 0]
 
 [opener]
+edit = [
+  { run = "$EDITOR %s", block = true, for = "unix" },
+  { run = "%EDITOR% %s", block = true, for = "windows" },
+]
+
 preview_app = [
   { run = "open -a Preview %s", desc = "Open with Preview", for = "macos" },
 ]
@@ -161,7 +166,7 @@ fetch_workers = 5
 preload_workers = 2
 process_workers = 5
 bizarre_retry = 3
-image_alloc = 536870912  # 512MB
+image_alloc = 536870912      # 512MB
 image_bound = [10000, 10000]
 suppress_preload = false
 
